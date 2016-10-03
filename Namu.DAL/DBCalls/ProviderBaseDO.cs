@@ -138,5 +138,26 @@ namespace Namu.DAL.DBCalls
             return success;
         }
 
+        public async Task<int> GetIdForName(string name)
+        {
+            var success = await DataObjectHelper.ExecuteSelectWithExceptionHandler(async () =>
+            {
+                int idtprovider;
+
+                using (var context = new dbnamutestEntities())
+                {
+                    var prov = await context.tproviders
+                        .Where(p => p.name == name)
+                        .FirstOrDefaultAsync();
+
+                    idtprovider = prov != null ? prov.idtprovider : 0;
+                }
+
+                return idtprovider;
+            }, GetType().Name);
+
+            return success;
+        }
+
     }
 }

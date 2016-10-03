@@ -26,5 +26,15 @@ namespace Namu.Entity.ServicePOCOs
         public virtual Provider ProviderInfo { get; set; }
         [DataMember]
         public virtual List<RoomCategory> lstRoomCategories { get; set; }
+
+        public string CheckInTime
+        {
+            get { return string.Format("{0}:{1}", CheckIn_Hour, CheckIn_Minute); }
+        }
+
+        public string CheckOutTime
+        {
+            get { return string.Format("{0}:{1}", Checkout_Hour, Checkout_Minute); }
+        }
     }
 }

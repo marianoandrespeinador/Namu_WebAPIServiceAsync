@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Namu.BLL;
@@ -26,6 +27,12 @@ namespace NamuService.Controllers
         public async Task<bool> Post([FromBody]Provider value)
         {
             return await _accessBO.Insert(value);
+        }
+        
+        [HttpGet]
+        public async Task<int> GetIdForName(string name)
+        {
+            return await _accessBO.GetIdForName(name);
         }
 
         // PUT api/values/5

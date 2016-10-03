@@ -27,6 +27,11 @@ namespace Namu.BLL
             return await _accessDO.Select(id);
         }
 
+        public async Task<int> GetIdForName(string name)
+        {
+            return await _accessDO.GetIdForName(name);
+        }
+
         public async Task<bool> Delete(int id)
         {
             return await _accessDO.Delete(id);
