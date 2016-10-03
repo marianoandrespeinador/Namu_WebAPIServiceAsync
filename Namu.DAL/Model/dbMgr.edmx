@@ -1,0 +1,545 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="dbnamutestModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.7" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="taddress">
+          <Key>
+            <PropertyRef Name="idtaddress" />
+          </Key>
+          <Property Name="idtaddress" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="city" Type="varchar" MaxLength="500" />
+          <Property Name="state" Type="varchar" MaxLength="500" />
+          <Property Name="country" Type="varchar" MaxLength="100" />
+          <Property Name="exactAddress" Type="longtext" />
+          <Property Name="userid" Type="int" />
+        </EntityType>
+        <EntityType Name="tprovider">
+          <Key>
+            <PropertyRef Name="idtprovider" />
+          </Key>
+          <Property Name="idtprovider" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="providerTypeCode" Type="int" Nullable="false" />
+          <Property Name="numcode" Type="int" Nullable="false" />
+          <Property Name="phonecode" Type="int" Nullable="false" />
+          <Property Name="userid" Type="int" />
+        </EntityType>
+        <EntityType Name="tprovider_hoteltype">
+          <Key>
+            <PropertyRef Name="idtprovider" />
+          </Key>
+          <Property Name="idtprovider" Type="int" Nullable="false" />
+          <Property Name="checkin_hour" Type="int" Nullable="false" />
+          <Property Name="checkin_minute" Type="int" Nullable="false" />
+          <Property Name="checkout_hour" Type="int" Nullable="false" />
+          <Property Name="checkout_minute" Type="int" Nullable="false" />
+          <Property Name="minimum_age" Type="int" Nullable="false" />
+          <Property Name="userid" Type="int" />
+        </EntityType>
+        <EntityType Name="tprovider_tourtype">
+          <Key>
+            <PropertyRef Name="idtprovider" />
+          </Key>
+          <Property Name="idtprovider" Type="int" Nullable="false" />
+          <Property Name="location" Type="longtext" />
+          <Property Name="userid" Type="int" />
+        </EntityType>
+        <EntityType Name="tproviderxtaddress">
+          <Key>
+            <PropertyRef Name="fktaddress" />
+            <PropertyRef Name="fktprovider" />
+          </Key>
+          <Property Name="fktaddress" Type="int" Nullable="false" />
+          <Property Name="fktprovider" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="troomcategory">
+          <Key>
+            <PropertyRef Name="idtroomcategory" />
+          </Key>
+          <Property Name="idtroomcategory" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="maxcapacity" Type="int" Nullable="false" />
+          <Property Name="fktprovider" Type="int" Nullable="false" />
+          <Property Name="userid" Type="int" />
+        </EntityType>
+        <EntityType Name="ttokens">
+          <Key>
+            <PropertyRef Name="idttokens" />
+          </Key>
+          <Property Name="idttokens" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="authToken" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="startDate" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="endDate" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="fktuser" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ttour">
+          <Key>
+            <PropertyRef Name="idttour" />
+          </Key>
+          <Property Name="idttour" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="location" Type="longtext" Nullable="false" />
+          <Property Name="description" Type="longtext" Nullable="false" />
+          <Property Name="departuretime_hour" Type="int" Nullable="false" />
+          <Property Name="departuretime_minute" Type="int" Nullable="false" />
+          <Property Name="fktprovider" Type="int" Nullable="false" />
+          <Property Name="userid" Type="int" />
+        </EntityType>
+        <EntityType Name="tuser">
+          <Key>
+            <PropertyRef Name="idtuser" />
+          </Key>
+          <Property Name="idtuser" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="passwordCypher" Type="varchar" MaxLength="500" Nullable="false" />
+        </EntityType>
+        <Association Name="tprovider_hoteltype_ibfk_1">
+          <End Role="tprovider" Type="Self.tprovider" Multiplicity="1" />
+          <End Role="tprovider_hoteltype" Type="Self.tprovider_hoteltype" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tprovider">
+              <PropertyRef Name="idtprovider" />
+            </Principal>
+            <Dependent Role="tprovider_hoteltype">
+              <PropertyRef Name="idtprovider" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="tprovider_tourtype_ibfk_1">
+          <End Role="tprovider" Type="Self.tprovider" Multiplicity="1" />
+          <End Role="tprovider_tourtype" Type="Self.tprovider_tourtype" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tprovider">
+              <PropertyRef Name="idtprovider" />
+            </Principal>
+            <Dependent Role="tprovider_tourtype">
+              <PropertyRef Name="idtprovider" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="tproviderxtaddress_ibfk_1">
+          <End Role="taddress" Type="Self.taddress" Multiplicity="1" />
+          <End Role="tproviderxtaddress" Type="Self.tproviderxtaddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="taddress">
+              <PropertyRef Name="idtaddress" />
+            </Principal>
+            <Dependent Role="tproviderxtaddress">
+              <PropertyRef Name="fktaddress" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="tproviderxtaddress_ibfk_2">
+          <End Role="tprovider" Type="Self.tprovider" Multiplicity="1" />
+          <End Role="tproviderxtaddress" Type="Self.tproviderxtaddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tprovider">
+              <PropertyRef Name="idtprovider" />
+            </Principal>
+            <Dependent Role="tproviderxtaddress">
+              <PropertyRef Name="fktprovider" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="troomcategory_ibfk_1">
+          <End Role="tprovider_hoteltype" Type="Self.tprovider_hoteltype" Multiplicity="1" />
+          <End Role="troomcategory" Type="Self.troomcategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tprovider_hoteltype">
+              <PropertyRef Name="idtprovider" />
+            </Principal>
+            <Dependent Role="troomcategory">
+              <PropertyRef Name="fktprovider" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ttokens_ibfk_1">
+          <End Role="tuser" Type="Self.tuser" Multiplicity="1" />
+          <End Role="ttokens" Type="Self.ttokens" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tuser">
+              <PropertyRef Name="idtuser" />
+            </Principal>
+            <Dependent Role="ttokens">
+              <PropertyRef Name="fktuser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ttour_ibfk_1">
+          <End Role="tprovider_tourtype" Type="Self.tprovider_tourtype" Multiplicity="1" />
+          <End Role="ttour" Type="Self.ttour" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tprovider_tourtype">
+              <PropertyRef Name="idtprovider" />
+            </Principal>
+            <Dependent Role="ttour">
+              <PropertyRef Name="fktprovider" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dbnamutestModelStoreContainer">
+          <EntitySet Name="taddress" EntityType="Self.taddress" Schema="dbnamutest" store:Type="Tables" />
+          <EntitySet Name="tprovider" EntityType="Self.tprovider" Schema="dbnamutest" store:Type="Tables" />
+          <EntitySet Name="tprovider_hoteltype" EntityType="Self.tprovider_hoteltype" Schema="dbnamutest" store:Type="Tables" />
+          <EntitySet Name="tprovider_tourtype" EntityType="Self.tprovider_tourtype" Schema="dbnamutest" store:Type="Tables" />
+          <EntitySet Name="tproviderxtaddress" EntityType="Self.tproviderxtaddress" Schema="dbnamutest" store:Type="Tables" />
+          <EntitySet Name="troomcategory" EntityType="Self.troomcategory" Schema="dbnamutest" store:Type="Tables" />
+          <EntitySet Name="ttokens" EntityType="Self.ttokens" Schema="dbnamutest" store:Type="Tables" />
+          <EntitySet Name="ttour" EntityType="Self.ttour" Schema="dbnamutest" store:Type="Tables" />
+          <EntitySet Name="tuser" EntityType="Self.tuser" Schema="dbnamutest" store:Type="Tables" />
+          <AssociationSet Name="tprovider_hoteltype_ibfk_1" Association="Self.tprovider_hoteltype_ibfk_1">
+            <End Role="tprovider" EntitySet="tprovider" />
+            <End Role="tprovider_hoteltype" EntitySet="tprovider_hoteltype" />
+          </AssociationSet>
+          <AssociationSet Name="tprovider_tourtype_ibfk_1" Association="Self.tprovider_tourtype_ibfk_1">
+            <End Role="tprovider" EntitySet="tprovider" />
+            <End Role="tprovider_tourtype" EntitySet="tprovider_tourtype" />
+          </AssociationSet>
+          <AssociationSet Name="tproviderxtaddress_ibfk_1" Association="Self.tproviderxtaddress_ibfk_1">
+            <End Role="taddress" EntitySet="taddress" />
+            <End Role="tproviderxtaddress" EntitySet="tproviderxtaddress" />
+          </AssociationSet>
+          <AssociationSet Name="tproviderxtaddress_ibfk_2" Association="Self.tproviderxtaddress_ibfk_2">
+            <End Role="tprovider" EntitySet="tprovider" />
+            <End Role="tproviderxtaddress" EntitySet="tproviderxtaddress" />
+          </AssociationSet>
+          <AssociationSet Name="troomcategory_ibfk_1" Association="Self.troomcategory_ibfk_1">
+            <End Role="tprovider_hoteltype" EntitySet="tprovider_hoteltype" />
+            <End Role="troomcategory" EntitySet="troomcategory" />
+          </AssociationSet>
+          <AssociationSet Name="ttokens_ibfk_1" Association="Self.ttokens_ibfk_1">
+            <End Role="tuser" EntitySet="tuser" />
+            <End Role="ttokens" EntitySet="ttokens" />
+          </AssociationSet>
+          <AssociationSet Name="ttour_ibfk_1" Association="Self.ttour_ibfk_1">
+            <End Role="tprovider_tourtype" EntitySet="tprovider_tourtype" />
+            <End Role="ttour" EntitySet="ttour" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="dbnamutestModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="taddress">
+          <Key>
+            <PropertyRef Name="idtaddress" />
+          </Key>
+          <Property Name="idtaddress" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="city" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="state" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="country" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="exactAddress" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="userid" Type="Int32" />
+          <NavigationProperty Name="tproviders" Relationship="Self.tproviderxtaddress" FromRole="taddress" ToRole="tprovider" />
+        </EntityType>
+        <EntityType Name="tprovider">
+          <Key>
+            <PropertyRef Name="idtprovider" />
+          </Key>
+          <Property Name="idtprovider" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="providerTypeCode" Type="Int32" Nullable="false" />
+          <Property Name="numcode" Type="Int32" Nullable="false" />
+          <Property Name="phonecode" Type="Int32" Nullable="false" />
+          <Property Name="userid" Type="Int32" />
+          <NavigationProperty Name="tprovider_hoteltype" Relationship="Self.tprovider_hoteltype_ibfk_1" FromRole="tprovider" ToRole="tprovider_hoteltype" />
+          <NavigationProperty Name="tprovider_tourtype" Relationship="Self.tprovider_tourtype_ibfk_1" FromRole="tprovider" ToRole="tprovider_tourtype" />
+          <NavigationProperty Name="taddresses" Relationship="Self.tproviderxtaddress" FromRole="tprovider" ToRole="taddress" />
+        </EntityType>
+        <EntityType Name="tprovider_hoteltype">
+          <Key>
+            <PropertyRef Name="idtprovider" />
+          </Key>
+          <Property Name="idtprovider" Type="Int32" Nullable="false" />
+          <Property Name="checkin_hour" Type="Int32" Nullable="false" />
+          <Property Name="checkin_minute" Type="Int32" Nullable="false" />
+          <Property Name="checkout_hour" Type="Int32" Nullable="false" />
+          <Property Name="checkout_minute" Type="Int32" Nullable="false" />
+          <Property Name="minimum_age" Type="Int32" Nullable="false" />
+          <Property Name="userid" Type="Int32" />
+          <NavigationProperty Name="tprovider" Relationship="Self.tprovider_hoteltype_ibfk_1" FromRole="tprovider_hoteltype" ToRole="tprovider" />
+          <NavigationProperty Name="troomcategories" Relationship="Self.troomcategory_ibfk_1" FromRole="tprovider_hoteltype" ToRole="troomcategory" />
+        </EntityType>
+        <EntityType Name="tprovider_tourtype">
+          <Key>
+            <PropertyRef Name="idtprovider" />
+          </Key>
+          <Property Name="idtprovider" Type="Int32" Nullable="false" />
+          <Property Name="location" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="userid" Type="Int32" />
+          <NavigationProperty Name="tprovider" Relationship="Self.tprovider_tourtype_ibfk_1" FromRole="tprovider_tourtype" ToRole="tprovider" />
+          <NavigationProperty Name="ttours" Relationship="Self.ttour_ibfk_1" FromRole="tprovider_tourtype" ToRole="ttour" />
+        </EntityType>
+        <EntityType Name="troomcategory">
+          <Key>
+            <PropertyRef Name="idtroomcategory" />
+          </Key>
+          <Property Name="idtroomcategory" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="maxcapacity" Type="Int32" Nullable="false" />
+          <Property Name="fktprovider" Type="Int32" Nullable="false" />
+          <Property Name="userid" Type="Int32" />
+          <NavigationProperty Name="tprovider_hoteltype" Relationship="Self.troomcategory_ibfk_1" FromRole="troomcategory" ToRole="tprovider_hoteltype" />
+        </EntityType>
+        <EntityType Name="ttoken">
+          <Key>
+            <PropertyRef Name="idttokens" />
+          </Key>
+          <Property Name="idttokens" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="authToken" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="startDate" Type="DateTime" Nullable="false" />
+          <Property Name="endDate" Type="DateTime" Nullable="false" />
+          <Property Name="fktuser" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tuser" Relationship="Self.ttokens_ibfk_1" FromRole="ttokens" ToRole="tuser" />
+        </EntityType>
+        <EntityType Name="ttour">
+          <Key>
+            <PropertyRef Name="idttour" />
+          </Key>
+          <Property Name="idttour" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="location" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="departuretime_hour" Type="Int32" Nullable="false" />
+          <Property Name="departuretime_minute" Type="Int32" Nullable="false" />
+          <Property Name="fktprovider" Type="Int32" Nullable="false" />
+          <Property Name="userid" Type="Int32" />
+          <NavigationProperty Name="tprovider_tourtype" Relationship="Self.ttour_ibfk_1" FromRole="ttour" ToRole="tprovider_tourtype" />
+        </EntityType>
+        <EntityType Name="tuser">
+          <Key>
+            <PropertyRef Name="idtuser" />
+          </Key>
+          <Property Name="idtuser" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="passwordCypher" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="ttokens" Relationship="Self.ttokens_ibfk_1" FromRole="tuser" ToRole="ttokens" />
+        </EntityType>
+        <Association Name="tprovider_hoteltype_ibfk_1">
+          <End Role="tprovider" Type="Self.tprovider" Multiplicity="1" />
+          <End Role="tprovider_hoteltype" Type="Self.tprovider_hoteltype" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tprovider">
+              <PropertyRef Name="idtprovider" />
+            </Principal>
+            <Dependent Role="tprovider_hoteltype">
+              <PropertyRef Name="idtprovider" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="tprovider_tourtype_ibfk_1">
+          <End Role="tprovider" Type="Self.tprovider" Multiplicity="1" />
+          <End Role="tprovider_tourtype" Type="Self.tprovider_tourtype" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tprovider">
+              <PropertyRef Name="idtprovider" />
+            </Principal>
+            <Dependent Role="tprovider_tourtype">
+              <PropertyRef Name="idtprovider" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="troomcategory_ibfk_1">
+          <End Role="tprovider_hoteltype" Type="Self.tprovider_hoteltype" Multiplicity="1" />
+          <End Role="troomcategory" Type="Self.troomcategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tprovider_hoteltype">
+              <PropertyRef Name="idtprovider" />
+            </Principal>
+            <Dependent Role="troomcategory">
+              <PropertyRef Name="fktprovider" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ttour_ibfk_1">
+          <End Role="tprovider_tourtype" Type="Self.tprovider_tourtype" Multiplicity="1" />
+          <End Role="ttour" Type="Self.ttour" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tprovider_tourtype">
+              <PropertyRef Name="idtprovider" />
+            </Principal>
+            <Dependent Role="ttour">
+              <PropertyRef Name="fktprovider" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ttokens_ibfk_1">
+          <End Role="tuser" Type="Self.tuser" Multiplicity="1" />
+          <End Role="ttokens" Type="Self.ttoken" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tuser">
+              <PropertyRef Name="idtuser" />
+            </Principal>
+            <Dependent Role="ttokens">
+              <PropertyRef Name="fktuser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="tproviderxtaddress">
+          <End Role="taddress" Type="Self.taddress" Multiplicity="*" />
+          <End Role="tprovider" Type="Self.tprovider" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="dbnamutestEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="taddresses" EntityType="Self.taddress" />
+          <EntitySet Name="tproviders" EntityType="Self.tprovider" />
+          <EntitySet Name="tprovider_hoteltype" EntityType="Self.tprovider_hoteltype" />
+          <EntitySet Name="tprovider_tourtype" EntityType="Self.tprovider_tourtype" />
+          <EntitySet Name="troomcategories" EntityType="Self.troomcategory" />
+          <EntitySet Name="ttokens" EntityType="Self.ttoken" />
+          <EntitySet Name="ttours" EntityType="Self.ttour" />
+          <EntitySet Name="tusers" EntityType="Self.tuser" />
+          <AssociationSet Name="tprovider_hoteltype_ibfk_1" Association="Self.tprovider_hoteltype_ibfk_1">
+            <End Role="tprovider" EntitySet="tproviders" />
+            <End Role="tprovider_hoteltype" EntitySet="tprovider_hoteltype" />
+          </AssociationSet>
+          <AssociationSet Name="tprovider_tourtype_ibfk_1" Association="Self.tprovider_tourtype_ibfk_1">
+            <End Role="tprovider" EntitySet="tproviders" />
+            <End Role="tprovider_tourtype" EntitySet="tprovider_tourtype" />
+          </AssociationSet>
+          <AssociationSet Name="troomcategory_ibfk_1" Association="Self.troomcategory_ibfk_1">
+            <End Role="tprovider_hoteltype" EntitySet="tprovider_hoteltype" />
+            <End Role="troomcategory" EntitySet="troomcategories" />
+          </AssociationSet>
+          <AssociationSet Name="ttour_ibfk_1" Association="Self.ttour_ibfk_1">
+            <End Role="tprovider_tourtype" EntitySet="tprovider_tourtype" />
+            <End Role="ttour" EntitySet="ttours" />
+          </AssociationSet>
+          <AssociationSet Name="ttokens_ibfk_1" Association="Self.ttokens_ibfk_1">
+            <End Role="tuser" EntitySet="tusers" />
+            <End Role="ttokens" EntitySet="ttokens" />
+          </AssociationSet>
+          <AssociationSet Name="tproviderxtaddress" Association="Self.tproviderxtaddress">
+            <End Role="taddress" EntitySet="taddresses" />
+            <End Role="tprovider" EntitySet="tproviders" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="dbnamutestModelStoreContainer" CdmEntityContainer="dbnamutestEntities">
+          <EntitySetMapping Name="taddresses">
+            <EntityTypeMapping TypeName="dbnamutestModel.taddress">
+              <MappingFragment StoreEntitySet="taddress">
+                <ScalarProperty Name="idtaddress" ColumnName="idtaddress" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="country" ColumnName="country" />
+                <ScalarProperty Name="exactAddress" ColumnName="exactAddress" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tproviders">
+            <EntityTypeMapping TypeName="dbnamutestModel.tprovider">
+              <MappingFragment StoreEntitySet="tprovider">
+                <ScalarProperty Name="idtprovider" ColumnName="idtprovider" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="providerTypeCode" ColumnName="providerTypeCode" />
+                <ScalarProperty Name="numcode" ColumnName="numcode" />
+                <ScalarProperty Name="phonecode" ColumnName="phonecode" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tprovider_hoteltype">
+            <EntityTypeMapping TypeName="dbnamutestModel.tprovider_hoteltype">
+              <MappingFragment StoreEntitySet="tprovider_hoteltype">
+                <ScalarProperty Name="idtprovider" ColumnName="idtprovider" />
+                <ScalarProperty Name="checkin_hour" ColumnName="checkin_hour" />
+                <ScalarProperty Name="checkin_minute" ColumnName="checkin_minute" />
+                <ScalarProperty Name="checkout_hour" ColumnName="checkout_hour" />
+                <ScalarProperty Name="checkout_minute" ColumnName="checkout_minute" />
+                <ScalarProperty Name="minimum_age" ColumnName="minimum_age" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tprovider_tourtype">
+            <EntityTypeMapping TypeName="dbnamutestModel.tprovider_tourtype">
+              <MappingFragment StoreEntitySet="tprovider_tourtype">
+                <ScalarProperty Name="idtprovider" ColumnName="idtprovider" />
+                <ScalarProperty Name="location" ColumnName="location" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="troomcategories">
+            <EntityTypeMapping TypeName="dbnamutestModel.troomcategory">
+              <MappingFragment StoreEntitySet="troomcategory">
+                <ScalarProperty Name="idtroomcategory" ColumnName="idtroomcategory" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="maxcapacity" ColumnName="maxcapacity" />
+                <ScalarProperty Name="fktprovider" ColumnName="fktprovider" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ttokens">
+            <EntityTypeMapping TypeName="dbnamutestModel.ttoken">
+              <MappingFragment StoreEntitySet="ttokens">
+                <ScalarProperty Name="idttokens" ColumnName="idttokens" />
+                <ScalarProperty Name="authToken" ColumnName="authToken" />
+                <ScalarProperty Name="startDate" ColumnName="startDate" />
+                <ScalarProperty Name="endDate" ColumnName="endDate" />
+                <ScalarProperty Name="fktuser" ColumnName="fktuser" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ttours">
+            <EntityTypeMapping TypeName="dbnamutestModel.ttour">
+              <MappingFragment StoreEntitySet="ttour">
+                <ScalarProperty Name="idttour" ColumnName="idttour" />
+                <ScalarProperty Name="location" ColumnName="location" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="departuretime_hour" ColumnName="departuretime_hour" />
+                <ScalarProperty Name="departuretime_minute" ColumnName="departuretime_minute" />
+                <ScalarProperty Name="fktprovider" ColumnName="fktprovider" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tusers">
+            <EntityTypeMapping TypeName="dbnamutestModel.tuser">
+              <MappingFragment StoreEntitySet="tuser">
+                <ScalarProperty Name="idtuser" ColumnName="idtuser" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="passwordCypher" ColumnName="passwordCypher" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="tproviderxtaddress" TypeName="dbnamutestModel.tproviderxtaddress" StoreEntitySet="tproviderxtaddress">
+            <EndProperty Name="taddress">
+              <ScalarProperty Name="idtaddress" ColumnName="fktaddress" />
+            </EndProperty>
+            <EndProperty Name="tprovider">
+              <ScalarProperty Name="idtprovider" ColumnName="fktprovider" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
