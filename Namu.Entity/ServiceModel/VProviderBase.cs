@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Namu.Entity.ServiceModel
 {
-    public abstract class VProviderBase
+    public abstract class VProviderBase : ModelBase
     {
         public int Id { get; set; }
         public string Name { get; set; }
